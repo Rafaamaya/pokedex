@@ -1,12 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
+import { NavigationContainer } from '@react-navigation/native';
 
-import PokemonListScreen from './src/screens/PokemonListScreen';
+import AppNavigator from './src/navigation/AppNavigator';
 
 export default function App() {
   return (
-    <>
-      <PokemonListScreen />
+    <NavigationContainer>
+      <AppNavigator />
       <StatusBar style="dark" />
-    </>
+    </NavigationContainer>
   );
 }

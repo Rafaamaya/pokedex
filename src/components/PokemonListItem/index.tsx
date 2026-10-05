@@ -6,10 +6,11 @@ import { getOfficialArtworkUrl } from '../../helpers/pokemonImage';
 interface PokemonListItemProps {
   name: string;
   id: number;
+  onPress: (id: number, name: string) => void;
 }
 
-const PokemonListItem = memo(({ name, id }: PokemonListItemProps) => (
-  <PokemonCard.Root>
+const PokemonListItem = memo(({ name, id, onPress }: PokemonListItemProps) => (
+  <PokemonCard.Root onPress={() => onPress(id, name)}>
     <PokemonCard.Image
       source={getOfficialArtworkUrl(id)}
       accessibilityLabel={`Imagen de ${name}`}
@@ -18,5 +19,7 @@ const PokemonListItem = memo(({ name, id }: PokemonListItemProps) => (
     <PokemonCard.Number value={id} />
   </PokemonCard.Root>
 ));
+
+PokemonListItem.displayName = 'PokemonListItem';
 
 export default PokemonListItem;

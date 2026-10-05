@@ -1,19 +1,32 @@
 import { useCallback } from 'react';
-import { ActivityIndicator, FlatList, ListRenderItem, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, ListRenderItem, StyleSheet, View } from 'react-native';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import PokemonListItem from '../../components/PokemonListItem';
 import { getPokemonIdFromUrl } from '../../helpers/pokemonImage';
 import { usePokemonList } from '../../hooks/usePokemonList';
 import type { PokemonListItem as PokemonListEntry } from '../../types/pokemon';
+import type { RootStackParamList } from '../../navigation/AppNavigator';
 
-const renderPokemon: ListRenderItem<PokemonListEntry> = ({ item }) => {
-  const pokemonId = getPokemonIdFromUrl(item.url);
+type Props = NativeStackScreenProps<RootStackParamList, 'PokemonList'>;
 
-  return <PokemonListItem name={item.name} id={pokemonId} />;
-};
-
-export default function PokemonListScreen() {
+export default function PokemonListScreen({ navigation }: Props) {
   const { pokemon, loadMore, hasMore, isLoading, isLoadingMore } = usePokemonList();
+  const handlePressPokemon = useCallback(
+    (id: number, name: string) => {
+      navigation.navigate('PokemonDetail', { id, name });
+    },
+    [navigation],
+  );
+
+  const renderPokemon: ListRenderItem<PokemonListEntry> = useCallback(
+    ({ item }) => {
+      const pokemonId = getPokemonIdFromUrl(item.url);
+
+      return <PokemonListItem name={item.name} id={pokemonId} onPress={handlePressPokemon} />;
+    },
+    [handlePressPokemon],
+  );
 
   const handleEndReached = useCallback(() => {
     if (hasMore && !isLoading && !isLoadingMore) {
@@ -31,7 +44,6 @@ export default function PokemonListScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Pokédex</Text>
       <FlatList
         data={pokemon}
         renderItem={renderPokemon}
@@ -52,15 +64,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-  },
-  heading: {
-    paddingHorizontal: 18,
-    paddingTop: 40,
-    paddingBottom: 8,
-    color: '#14213D',
-    fontSize: 28,
-    fontWeight: '800',
-    alignSelf: 'center',
   },
   listContent: {
     paddingHorizontal: 6,

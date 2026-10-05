@@ -6,12 +6,13 @@ import {
   StyleSheet,
   Text,
   TextStyle,
-  View,
   ViewStyle,
+  Pressable,
 } from 'react-native';
 
 interface RootProps extends PropsWithChildren {
   style?: StyleProp<ViewStyle>;
+  onPress?: () => void;
 }
 
 interface ImageProps {
@@ -30,8 +31,10 @@ interface NumberProps {
   style?: StyleProp<TextStyle>;
 }
 
-const PokemonCardRoot = ({ children, style }: RootProps) => (
-  <View style={[styles.card, style]}>{children}</View>
+const PokemonCardRoot = ({ children, style, onPress }: RootProps) => (
+  <Pressable style={[styles.card, style]} onPress={onPress}>
+    {children}
+  </Pressable>
 );
 
 const PokemonCardImage = ({ source, accessibilityLabel, style }: ImageProps) => (
