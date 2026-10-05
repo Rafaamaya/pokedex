@@ -8,6 +8,5 @@ export const getPokemonPage = async (
   const response = await apiClient.get<PokemonPageResponse>('/pokemon', {
     params: { offset, limit },
   });
-
   return response.data;
 };
