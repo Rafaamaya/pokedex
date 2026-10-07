@@ -1,13 +1,13 @@
-import type { PokemonListItem } from '../types/pokemon';
+import type { PokemonReference } from '../types/pokemon';
 
 const normalizePokemonName = (value: string): string => {
   return value.trim().toLowerCase().replace(/\s+/g, '-');
 };
 
 export const filterPokemonByName = (
-  list: PokemonListItem[],
+  list: PokemonReference[],
   query: string,
-): PokemonListItem[] => {
+): PokemonReference[] => {
   const normalizedQuery = normalizePokemonName(query);
 
   if (normalizedQuery.length === 0) {

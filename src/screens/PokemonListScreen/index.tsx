@@ -11,7 +11,7 @@ import { getPokemonIdFromUrl } from '../../helpers/pokemonImage';
 import { filterPokemonByName } from '../../helpers/pokemonSearch';
 import { usePokemonList } from '../../hooks/usePokemonList';
 import { usePokemonSearchIndex } from '../../hooks/usePokemonSearchIndex';
-import type { PokemonListItem as PokemonListEntry } from '../../types/pokemon';
+import type { PokemonReference } from '../../types/pokemon';
 import type { RootStackParamList } from '../../navigation/AppNavigator';
 
 export default function PokemonListScreen() {
@@ -32,7 +32,7 @@ export default function PokemonListScreen() {
     [navigation],
   );
 
-  const renderPokemon: ListRenderItem<PokemonListEntry> = useCallback(
+  const renderPokemon: ListRenderItem<PokemonReference> = useCallback(
     ({ item }) => {
       const pokemonId = getPokemonIdFromUrl(item.url);
 

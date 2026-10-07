@@ -1,7 +1,7 @@
 import apiClient from './client';
-import type { PokemonDetail, PokemonListItem, PokemonPageResponse } from '../types/pokemon';
+import type { PokemonDetail, PokemonPageResponse, PokemonReference } from '../types/pokemon';
 
-export const getAllPokemonNames = async (): Promise<PokemonListItem[]> => {
+export const getAllPokemonNames = async (): Promise<PokemonReference[]> => {
   // 2000 cubre los ~1350 Pokemon actuales porque la API no ofrece búsqueda por nombre.
   const response = await apiClient.get<PokemonPageResponse>('/pokemon', {
     params: { limit: 2000, offset: 0 },

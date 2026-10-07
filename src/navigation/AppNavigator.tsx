@@ -7,6 +7,7 @@ import { formatPokemonName } from '../helpers/pokemonFormat';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import PokemonDetailScreen from '../screens/PokemonDetailScreen';
 import PokemonListScreen from '../screens/PokemonListScreen';
+import type { PokemonSummary } from '../types/pokemon';
 
 export type TabParamList = {
   Pokedex: undefined;
@@ -15,7 +16,7 @@ export type TabParamList = {
 
 export type RootStackParamList = {
   Tabs: NavigatorScreenParams<TabParamList>;
-  PokemonDetail: { id: number; name: string };
+  PokemonDetail: PokemonSummary;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();

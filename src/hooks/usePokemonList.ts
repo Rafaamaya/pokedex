@@ -2,12 +2,12 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { getPokemonPage } from '../api/pokemonService';
 import { readCachedList, saveCachedList } from '../cache/pokemonListCache';
-import type { PokemonListItem } from '../types/pokemon';
+import type { PokemonReference } from '../types/pokemon';
 
 const PAGE_SIZE = 20;
 
 interface UsePokemonListResult {
-  pokemon: PokemonListItem[];
+  pokemon: PokemonReference[];
   loadMore: () => Promise<void>;
   hasMore: boolean;
   isLoading: boolean;
@@ -15,7 +15,7 @@ interface UsePokemonListResult {
 }
 
 export const usePokemonList = (): UsePokemonListResult => {
-  const [pokemon, setPokemon] = useState<PokemonListItem[]>([]);
+  const [pokemon, setPokemon] = useState<PokemonReference[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
