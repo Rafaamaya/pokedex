@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { getPokemonPage } from '../api/pokemonService';
+import { readCachedList, saveCachedList } from '../cache/pokemonListCache';
 import type { PokemonListItem } from '../types/pokemon';
 
 const PAGE_SIZE = 20;
@@ -47,8 +48,27 @@ export const usePokemonList = (): UsePokemonListResult => {
   }, []);
 
   useEffect(() => {
-    loadMore();
+    const initializeList = async () => {
+      const cached = await readCachedList();
+
+      if (cached !== null) {
+        setPokemon(cached);
+        nextOffsetRef.current = cached.length;
+        setIsLoading(false);
+        return;
+      }
+
+      await loadMore();
+    };
+
+    void initializeList();
   }, [loadMore]);
+
+  useEffect(() => {
+    if (pokemon.length > 0) {
+      void saveCachedList(pokemon);
+    }
+  }, [pokemon]);
 
   return { pokemon, loadMore, hasMore, isLoading, isLoadingMore };
 };
