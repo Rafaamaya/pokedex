@@ -1,5 +1,5 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
 
 import { getOfficialArtworkUrl } from '../../helpers/pokemonImage';
@@ -9,6 +9,7 @@ import {
   weightToKilograms,
 } from '../../helpers/pokemonFormat';
 import { usePokemonDetail } from '../../hooks/usePokemonDetail';
+import { PokemonDetailSkeleton } from '../../components/Skeleton';
 import type { RootStackParamList } from '../../navigation/AppNavigator';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'PokemonDetail'>;
@@ -18,11 +19,7 @@ export default function PokemonDetailScreen({ route }: Props) {
   const { pokemon, isLoading } = usePokemonDetail(id);
 
   if (isLoading || pokemon === null) {
-    return (
-      <View style={styles.centered}>
-        <ActivityIndicator size="large" color="#EF4444" />
-      </View>
-    );
+    return <PokemonDetailSkeleton />;
   }
 
   return (
@@ -77,12 +74,6 @@ export default function PokemonDetailScreen({ route }: Props) {
 }
 
 const styles = StyleSheet.create({
-  centered: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#FFFFFF',
-  },
   content: {
     padding: 20,
     backgroundColor: '#FFFFFF',

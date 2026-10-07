@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import PokemonListItem from '../../components/PokemonListItem';
+import EmptyState from '../../components/EmptyState';
 import type { RootStackParamList } from '../../navigation/AppNavigator';
 import { useFavoritesStore } from '../../stores/useFavoritesStore';
 import type { FavoritePokemon } from '../../types/pokemon';
@@ -32,6 +33,13 @@ export default function FavoritesScreen() {
         keyExtractor={(item) => String(item.id)}
         numColumns={2}
         contentContainerStyle={styles.listContent}
+        ListEmptyComponent={
+          <EmptyState
+            icon="heart-outline"
+            title="Todavía no tenés favoritos"
+            description="Tocá el corazón de un Pokémon para guardarlo acá."
+          />
+        }
       />
     </View>
   );

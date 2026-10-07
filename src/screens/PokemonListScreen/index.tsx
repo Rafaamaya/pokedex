@@ -4,6 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import PokemonListItem from '../../components/PokemonListItem';
+import EmptyState from '../../components/EmptyState';
+import { PokemonListSkeleton } from '../../components/Skeleton';
 import SearchBar from '../../components/SearchBar';
 import { getPokemonIdFromUrl } from '../../helpers/pokemonImage';
 import { filterPokemonByName } from '../../helpers/pokemonSearch';
@@ -53,13 +55,9 @@ export default function PokemonListScreen() {
         onFocus={() => setIsSearchActive(true)}
       />
       {isSearching && isSearchIndexLoading ? (
-        <View style={styles.centered}>
-          <ActivityIndicator size="large" color="#EF4444" />
-        </View>
+        <PokemonListSkeleton />
       ) : isLoading ? (
-        <View style={styles.centered}>
-          <ActivityIndicator size="large" color="#EF4444" />
-        </View>
+        <PokemonListSkeleton />
       ) : (
         <FlatList
           data={isSearching ? filteredPokemon : pokemon}
@@ -70,6 +68,19 @@ export default function PokemonListScreen() {
           onEndReached={isSearching ? undefined : handleEndReached}
           onEndReachedThreshold={isSearching ? undefined : 0.5}
           keyboardShouldPersistTaps="handled"
+          ListEmptyComponent={
+            <EmptyState
+              icon={isSearching ? 'search-outline' : 'albums-outline'}
+              title={
+                isSearching
+                  ? `No encontramos "${query.trim()}"`
+                  : 'No hay Pokémon para mostrar'
+              }
+              description={
+                isSearching ? 'Probá con otro nombre o revisá cómo lo escribiste.' : undefined
+              }
+            />
+          }
           ListFooterComponent={
             isSearching || !isLoadingMore ? null : (
               <ActivityIndicator style={styles.footer} color="#EF4444" />
@@ -92,11 +103,5 @@ const styles = StyleSheet.create({
   },
   footer: {
     paddingVertical: 18,
-  },
-  centered: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#FFFFFF',
   },
 });
