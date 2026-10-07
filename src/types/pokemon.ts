@@ -3,6 +3,11 @@ export interface PokemonListItem {
   url: string;
 }
 
+export interface FavoritePokemon {
+  id: number;
+  name: string;
+}
+
 export interface PokemonPageResponse {
   count: number;
   next: string | null;

@@ -2,13 +2,14 @@ import { PropsWithChildren } from 'react';
 import { Image } from 'expo-image';
 import {
   ImageStyle,
+  Pressable,
   StyleProp,
   StyleSheet,
   Text,
   TextStyle,
   ViewStyle,
-  Pressable,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 interface RootProps extends PropsWithChildren {
   style?: StyleProp<ViewStyle>;
@@ -29,6 +30,11 @@ interface TitleProps {
 interface NumberProps {
   value: number;
   style?: StyleProp<TextStyle>;
+}
+
+interface FavoriteButtonProps {
+  isFavorite: boolean;
+  onPress: () => void;
 }
 
 const PokemonCardRoot = ({ children, style, onPress }: RootProps) => (
@@ -57,11 +63,26 @@ const PokemonCardNumber = ({ value, style }: NumberProps) => (
   <Text style={[styles.number, style]}>#{String(value).padStart(3, '0')}</Text>
 );
 
+const PokemonCardFavoriteButton = ({ isFavorite, onPress }: FavoriteButtonProps) => {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+      hitSlop={10}
+      onPress={onPress}
+      style={styles.favoriteButton}
+    >
+      <Ionicons name={isFavorite ? 'heart' : 'heart-outline'} size={24} color="#EF4444" />
+    </Pressable>
+  );
+};
+
 export const PokemonCard = {
   Root: PokemonCardRoot,
   Image: PokemonCardImage,
   Title: PokemonCardTitle,
   Number: PokemonCardNumber,
+  FavoriteButton: PokemonCardFavoriteButton,
 };
 
 const styles = StyleSheet.create({
@@ -73,6 +94,12 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 16,
     backgroundColor: '#F1F5F9',
+  },
+  favoriteButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    zIndex: 1,
   },
   image: {
     width: '100%',

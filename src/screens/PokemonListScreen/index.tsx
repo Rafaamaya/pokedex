@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { ActivityIndicator, FlatList, ListRenderItem, StyleSheet, View } from 'react-native';
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import PokemonListItem from '../../components/PokemonListItem';
 import SearchBar from '../../components/SearchBar';
@@ -11,9 +12,8 @@ import { usePokemonSearchIndex } from '../../hooks/usePokemonSearchIndex';
 import type { PokemonListItem as PokemonListEntry } from '../../types/pokemon';
 import type { RootStackParamList } from '../../navigation/AppNavigator';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'PokemonList'>;
-
-export default function PokemonListScreen({ navigation }: Props) {
+export default function PokemonListScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { pokemon, loadMore, hasMore, isLoading, isLoadingMore } = usePokemonList();
   const [query, setQuery] = useState('');
   const [isSearchActive, setIsSearchActive] = useState(false);
